@@ -1,8 +1,43 @@
 import React from "react";
 
 const Sort: React.FC = () => {
+  const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
+  const [popupCurrent, setPopupCurrent] =
+    React.useState<string>("популярности");
+  const popupRef = React.useRef<HTMLDivElement | null>(null);
+
+  const popupArr = ["популярности", "цене", "алфавиту"];
+
+  React.useEffect(() => {
+    if (popupOpen) {
+      window.addEventListener("click", closePopupOutside);
+    }
+    return function () {
+      window.removeEventListener("click", closePopupOutside);
+    };
+  });
+
+  const closePopupOutside = (e: MouseEvent): void => {
+    if (!e.target) return;
+
+    const target = e.target as HTMLElement;
+
+    if (popupRef.current && !popupRef.current?.contains(target)) {
+      setPopupOpen(false);
+    }
+  };
+
+  const handlerCurrentPopupItem: React.MouseEventHandler<HTMLLIElement> = (
+    e
+  ) => {
+    if (!e.target) return;
+    const target = e.target as HTMLElement;
+    setPopupCurrent(target.innerText);
+    setPopupOpen(false);
+  };
+
   return (
-    <div className="sort">
+    <div ref={popupRef} className="sort">
       <div className="sort__label">
         <svg
           width="10"
@@ -17,15 +52,23 @@ const Sort: React.FC = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span>популярности</span>
+        <span onClick={() => setPopupOpen(!popupOpen)}>{popupCurrent}</span>
       </div>
-      <div className="sort__popup">
-        <ul>
-          <li className="active">популярности</li>
-          <li>цене</li>
-          <li>алфавиту</li>
-        </ul>
-      </div>
+      {popupOpen && (
+        <div className="sort__popup">
+          <ul>
+            {popupArr.map((el, i) => (
+              <li
+                onClick={handlerCurrentPopupItem}
+                className={el === popupCurrent ? "active" : ""}
+                key={i}
+              >
+                {el}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

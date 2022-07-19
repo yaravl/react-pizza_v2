@@ -3,7 +3,7 @@ import { PizzaItem } from "../../types/data";
 
 interface PizzaBlockProps extends PizzaItem {}
 
-const PizzaBlock: React.FC<PizzaBlockProps> = ({
+const PizzaBlock: React.FC<PizzaItem> = ({
   id,
   sizes,
   imageUrl,
@@ -13,19 +13,37 @@ const PizzaBlock: React.FC<PizzaBlockProps> = ({
   types,
   category,
 }) => {
+  const pizzaTypes = ["тонкое", "традиционное"];
+
+  const [type, setType] = useState<number>(0);
+  const [size, setSize] = useState<number>(0);
+
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+      <img className="pizza-block__image" src={"#"} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
-          <li className="active">тонкое</li>
-          <li>традиционное</li>
+          {types.map((el, i) => (
+            <li
+              key={i}
+              onClick={() => setType(i)}
+              className={i === type ? "active" : ""}
+            >
+              {pizzaTypes[i]}
+            </li>
+          ))}
         </ul>
         <ul>
-          <li className="active">26 см. </li>
-          <li>30 см.</li>
-          <li>40 см.</li>
+          {sizes.map((el, i) => (
+            <li
+              key={i}
+              onClick={() => setSize(i)}
+              className={i === size ? "active" : ""}
+            >
+              {el} см.
+            </li>
+          ))}
         </ul>
       </div>
       <div className="pizza-block__bottom">
