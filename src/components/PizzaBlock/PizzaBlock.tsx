@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { PizzaItem } from "../../types/data";
+import ContentLoader from "react-content-loader";
 
 interface PizzaBlockProps extends PizzaItem {}
 
-const PizzaBlock: React.FC<PizzaItem> = ({
+export const PizzaBlock: React.FC<PizzaItem> = ({
   id,
   sizes,
   imageUrl,
@@ -20,7 +21,7 @@ const PizzaBlock: React.FC<PizzaItem> = ({
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={"#"} alt="Pizza" />
+      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
       <div className="pizza-block__selector">
         <ul>
@@ -68,5 +69,3 @@ const PizzaBlock: React.FC<PizzaItem> = ({
     </div>
   );
 };
-
-export default PizzaBlock;

@@ -1,1 +1,2 @@
-export { default } from "./PizzaBlock";
+export { PizzaBlock } from "./PizzaBlock";
+export { PizzaBlockSkeleton } from "./PizzaBlockSkeleton";
