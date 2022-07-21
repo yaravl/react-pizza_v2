@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const CartPage = () => {
   return (
@@ -412,7 +413,9 @@ const CartPage = () => {
                 />
               </svg>
 
-              <span>Вернуться назад</span>
+              <Link to="/">
+                <span>Вернуться назад</span>
+              </Link>
             </a>
             <div className="button pay-btn">
               <span>Оплатить сейчас</span>

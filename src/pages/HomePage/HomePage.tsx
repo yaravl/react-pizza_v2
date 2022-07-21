@@ -24,6 +24,7 @@ const HomePage: React.FC = () => {
       const data = await response.data;
       setItems(data);
       setIsLoading(false);
+      window.scroll(0, 0);
     } catch (e) {
       console.log(e, "<-- Пиццы не загрузились");
     }
