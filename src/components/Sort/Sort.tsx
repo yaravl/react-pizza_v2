@@ -1,12 +1,24 @@
 import React from "react";
 
-const Sort: React.FC = () => {
+type sortType = { name: string; sort: string };
+
+interface SortProps {
+  sortType: sortType;
+  onClickSort: (type: sortType) => void;
+}
+
+const Sort: React.FC<SortProps> = ({ sortType, onClickSort }) => {
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
-  const [popupCurrent, setPopupCurrent] =
-    React.useState<string>("популярности");
   const popupRef = React.useRef<HTMLDivElement | null>(null);
 
-  const popupArr = ["популярности", "цене", "алфавиту"];
+  const popupArr = [
+    { name: "популярности (DESC)", sort: "rating" },
+    { name: "популярности (ASC)", sort: "-rating" },
+    { name: "цене (DESC)", sort: "price" },
+    { name: "цене (ASC)", sort: "-price" },
+    { name: "алфавиту (DESC)", sort: "title" },
+    { name: "алфавиту (ASC)", sort: "-title" },
+  ];
 
   React.useEffect(() => {
     if (popupOpen) {
@@ -32,7 +44,9 @@ const Sort: React.FC = () => {
   ) => {
     if (!e.target) return;
     const target = e.target as HTMLElement;
-    setPopupCurrent(target.innerText);
+    popupArr.find((el) => {
+      if (el.name === target.innerText) onClickSort(el);
+    });
     setPopupOpen(false);
   };
 
@@ -52,7 +66,7 @@ const Sort: React.FC = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setPopupOpen(!popupOpen)}>{popupCurrent}</span>
+        <span onClick={() => setPopupOpen(!popupOpen)}>{sortType.name}</span>
       </div>
       {popupOpen && (
         <div className="sort__popup">
@@ -60,10 +74,10 @@ const Sort: React.FC = () => {
             {popupArr.map((el, i) => (
               <li
                 onClick={handlerCurrentPopupItem}
-                className={el === popupCurrent ? "active" : ""}
+                className={el.name === sortType.name ? "active" : ""}
                 key={i}
               >
-                {el}
+                {el.name}
               </li>
             ))}
           </ul>

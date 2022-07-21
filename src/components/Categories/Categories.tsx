@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 
-const Categories: React.FC = () => {
+interface CategoriesProps {
+  categoryName: number;
+  onClickCategory: (id: number) => void;
+}
+
+const Categories: React.FC<CategoriesProps> = ({
+  categoryName,
+  onClickCategory,
+}) => {
   const categories: string[] = [
     "Все",
     "Мясные",
@@ -10,15 +18,15 @@ const Categories: React.FC = () => {
     "Закрытые",
   ];
 
-  const [activeCat, setActiveCat] = useState<string>("Все");
+  //const categoriesContext = React.useContext(CategoriesContext);
 
   return (
     <div className="categories">
       <ul>
-        {categories.map((cat) => (
+        {categories.map((cat, i) => (
           <li
-            className={cat === activeCat ? "active" : ""}
-            onClick={() => setActiveCat(cat)}
+            className={i === categoryName ? "active" : ""}
+            onClick={() => onClickCategory(i)}
             key={cat}
           >
             {cat}

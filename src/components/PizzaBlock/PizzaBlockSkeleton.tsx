@@ -3,7 +3,7 @@ import ContentLoader from "react-content-loader";
 
 export const PizzaBlockSkeleton: React.FC = () => {
   return (
-    <div className="pizza-block-wrapper">
+    <div className="pizza-block">
       <ContentLoader
         speed={2}
         width={280}
