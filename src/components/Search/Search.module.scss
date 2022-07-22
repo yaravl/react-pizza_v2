@@ -1,0 +1,40 @@
+.search_wrap {
+  display: flex;
+  position: relative;
+
+  input {
+    width: 280px;
+    padding: 10px 34px 10px 40px;
+    border-radius: 5px;
+    border: 1px solid #b6b6b6;
+
+    &::placeholder {
+      color: #b6b6b6;
+    }
+  }
+  .search_icon {
+    position: absolute;
+    left: 4px;
+    top: 4px;
+    width: 32px;
+    height: 32px;
+    line, circle {
+      stroke: #b6b6b6;
+    }
+  }
+  .search_clear {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    path {
+      fill: #b6b6b6;
+    }
+  }
+
+  @media (max-width: 648px) {
+    margin-top: 20px;
+  }
+}

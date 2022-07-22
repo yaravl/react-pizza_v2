@@ -1,6 +1,7 @@
 import React from "react";
 import headerSvg from "../../assets/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
+import { Search } from "../index";
 
 const Header: React.FC = () => {
   return (
@@ -15,6 +16,7 @@ const Header: React.FC = () => {
             </div>
           </div>
         </Link>
+        <Search />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
