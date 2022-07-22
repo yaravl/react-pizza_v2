@@ -44,9 +44,7 @@ const Sort: React.FC<SortProps> = ({ sortType, onClickSort }) => {
   ) => {
     if (!e.target) return;
     const target = e.target as HTMLElement;
-    popupArr.find((el) => {
-      if (el.name === target.innerText) onClickSort(el);
-    });
+    popupArr.find((el) => el.name === target.innerText && onClickSort(el));
     setPopupOpen(false);
   };
 

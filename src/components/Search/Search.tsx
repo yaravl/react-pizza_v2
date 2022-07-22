@@ -1,4 +1,4 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import styles from "./Search.module.scss";
 import { SearchContext } from "../../context";
 

@@ -21,7 +21,7 @@ const HomePage: React.FC = () => {
     sort: string;
   }>({ name: "популярности", sort: "rating" });
 
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const { searchValue } = React.useContext(SearchContext);
   const debouncedValue = useDebounce(searchValue, 2000);
 
   React.useEffect(() => {
@@ -48,6 +48,7 @@ const HomePage: React.FC = () => {
       console.log(e, "<-- Пиццы не загрузились");
     }
   };
+
   return (
     <div className="container">
       <div className="content__top">
