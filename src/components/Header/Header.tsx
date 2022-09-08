@@ -1,7 +1,7 @@
 import React from "react";
 import headerSvg from "../../assets/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
-import { Search } from "../index";
+import Search from "../../features/controls/Search";
 
 const Header: React.FC = () => {
   return (

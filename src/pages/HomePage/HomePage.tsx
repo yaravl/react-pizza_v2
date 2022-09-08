@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import {
-  Categories,
-  Pagination,
-  PizzaBlock,
-  PizzaBlockSkeleton,
-  Sort,
-} from "../../components";
+import { Pagination, PizzaBlock, PizzaBlockSkeleton } from "../../components";
+import Sort from "../../features/controls/Sort";
+import Categories from "../../features/controls/Categories";
 import { PizzaItem } from "../../types/data";
 import axios from "axios";
 import { SearchContext } from "../../context";
