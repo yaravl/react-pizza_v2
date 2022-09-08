@@ -4,22 +4,19 @@ interface CategoriesProps {
   categoryName: number;
   onClickCategory: (id: number) => void;
 }
+const categories: string[] = [
+  "Все",
+  "Мясные",
+  "Вегетарианская",
+  "Гриль",
+  "Острые",
+  "Закрытые",
+];
 
 const Categories: React.FC<CategoriesProps> = ({
   categoryName,
   onClickCategory,
 }) => {
-  const categories: string[] = [
-    "Все",
-    "Мясные",
-    "Вегетарианская",
-    "Гриль",
-    "Острые",
-    "Закрытые",
-  ];
-
-  //const categoriesContext = React.useContext(CategoriesContext);
-
   return (
     <div className="categories">
       <ul>

@@ -7,18 +7,18 @@ interface SortProps {
   onClickSort: (type: sortType) => void;
 }
 
+const popupArr = [
+  { name: "популярности (DESC)", sort: "rating" },
+  { name: "популярности (ASC)", sort: "-rating" },
+  { name: "цене (DESC)", sort: "price" },
+  { name: "цене (ASC)", sort: "-price" },
+  { name: "алфавиту (DESC)", sort: "title" },
+  { name: "алфавиту (ASC)", sort: "-title" },
+];
+
 const Sort: React.FC<SortProps> = ({ sortType, onClickSort }) => {
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
   const popupRef = React.useRef<HTMLDivElement | null>(null);
-
-  const popupArr = [
-    { name: "популярности (DESC)", sort: "rating" },
-    { name: "популярности (ASC)", sort: "-rating" },
-    { name: "цене (DESC)", sort: "price" },
-    { name: "цене (ASC)", sort: "-price" },
-    { name: "алфавиту (DESC)", sort: "title" },
-    { name: "алфавиту (ASC)", sort: "-title" },
-  ];
 
   React.useEffect(() => {
     if (popupOpen) {

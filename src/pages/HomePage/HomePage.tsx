@@ -4,21 +4,28 @@ import Sort from "../../features/controls/Sort";
 import Categories from "../../features/controls/Categories";
 import { PizzaItem } from "../../types/data";
 import axios from "axios";
-import { SearchContext } from "../../context";
 import useDebounce from "../../hooks/useDebounce";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setSort,
+  setCategory,
+  allControls,
+} from "../../features/controls/controlsSlice";
 
 const HomePage: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [items, setItems] = React.useState<PizzaItem[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
-  const [activeCatId, setActiveCatId] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [sortType, setSortType] = React.useState<{
-    name: string;
-    sort: string;
-  }>({ name: "популярности", sort: "rating" });
 
-  const { searchValue } = React.useContext(SearchContext);
-  const debouncedValue = useDebounce(searchValue, 2000);
+  const {
+    category: activeCatId,
+    sort: sortType,
+    search: searchValue,
+  } = useSelector(allControls);
+
+  const debouncedValue = useDebounce(searchValue, 1000);
 
   React.useEffect(() => {
     fetchPizzas();
@@ -50,10 +57,13 @@ const HomePage: React.FC = () => {
       <div className="content__top">
         <Categories
           categoryName={activeCatId}
-          onClickCategory={(id) => setActiveCatId(id)}
+          onClickCategory={(id) => dispatch(setCategory(id))}
         />
 
-        <Sort sortType={sortType} onClickSort={(obj) => setSortType(obj)} />
+        <Sort
+          sortType={sortType}
+          onClickSort={(obj) => dispatch(setSort(obj))}
+        />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

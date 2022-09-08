@@ -1,9 +1,11 @@
 import React from "react";
 import styles from "./Search.module.scss";
-import { SearchContext } from "../../context";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearch, allControls } from "./controlsSlice";
 
 const Search: React.FC = () => {
-  const { searchValue, setSearchValue } = React.useContext(SearchContext);
+  const dispatch = useDispatch();
+  const { search: searchValue } = useSelector(allControls);
 
   return (
     <div className={styles.search_wrap}>
@@ -46,12 +48,12 @@ const Search: React.FC = () => {
         placeholder="Поиск пиццы..."
         value={searchValue}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setSearchValue && setSearchValue(e.target.value)
+          dispatch(setSearch(e.target.value))
         }
       />
       {searchValue && (
         <svg
-          onClick={() => setSearchValue && setSearchValue("")}
+          onClick={() => dispatch(setSearch(""))}
           className={styles.search_clear}
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
