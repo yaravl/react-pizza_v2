@@ -5,31 +5,21 @@ import Categories from "../../features/controls/Categories";
 import { PizzaItem } from "../../types/data";
 import axios from "axios";
 import useDebounce from "../../hooks/useDebounce";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  setSort,
-  setCategory,
-  allControls,
-} from "../../features/controls/controlsSlice";
+import { useSelector } from "react-redux";
+import { allControls } from "../../features/controls/controlsSlice";
 
 const HomePage: React.FC = () => {
-  const dispatch = useDispatch();
-
   const [items, setItems] = React.useState<PizzaItem[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const {
-    category: activeCatId,
-    sort: sortType,
-    search: searchValue,
-  } = useSelector(allControls);
+  const { categoryId, sortType, searchValue } = useSelector(allControls);
 
   const debouncedValue = useDebounce(searchValue, 1000);
 
   React.useEffect(() => {
     fetchPizzas();
-  }, [activeCatId, sortType, debouncedValue, currentPage]);
+  }, [categoryId, sortType, debouncedValue, currentPage]);
 
   const fetchPizzas = async (): Promise<void> => {
     try {
@@ -37,7 +27,7 @@ const HomePage: React.FC = () => {
 
       const sortBy = sortType.sort.replace("-", "");
       const orderBy = sortType.sort.includes("-") ? "asc" : "desc";
-      const activeCat = activeCatId > 0 ? `category=${activeCatId}` : "";
+      const activeCat = categoryId > 0 ? `category=${categoryId}` : "";
       const search = searchValue.length > 0 ? searchValue : "";
 
       const response = await axios.get<PizzaItem[]>(
@@ -55,15 +45,8 @@ const HomePage: React.FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories
-          categoryName={activeCatId}
-          onClickCategory={(id) => dispatch(setCategory(id))}
-        />
-
-        <Sort
-          sortType={sortType}
-          onClickSort={(obj) => dispatch(setSort(obj))}
-        />
+        <Categories />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">

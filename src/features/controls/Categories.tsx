@@ -1,9 +1,7 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setCategory, allControls } from "./controlsSlice";
 
-interface CategoriesProps {
-  categoryName: number;
-  onClickCategory: (id: number) => void;
-}
 const categories: string[] = [
   "Все",
   "Мясные",
@@ -13,17 +11,17 @@ const categories: string[] = [
   "Закрытые",
 ];
 
-const Categories: React.FC<CategoriesProps> = ({
-  categoryName,
-  onClickCategory,
-}) => {
+const Categories: React.FC = () => {
+  const dispatch = useDispatch();
+  const { categoryId } = useSelector(allControls);
+
   return (
     <div className="categories">
       <ul>
         {categories.map((cat, i) => (
           <li
-            className={i === categoryName ? "active" : ""}
-            onClick={() => onClickCategory(i)}
+            className={i === categoryId ? "active" : ""}
+            onClick={() => dispatch(setCategory(i))}
             key={cat}
           >
             {cat}

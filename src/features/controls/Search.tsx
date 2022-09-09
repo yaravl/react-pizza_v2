@@ -5,7 +5,7 @@ import { setSearch, allControls } from "./controlsSlice";
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
-  const { search: searchValue } = useSelector(allControls);
+  const { searchValue } = useSelector(allControls);
 
   return (
     <div className={styles.search_wrap}>

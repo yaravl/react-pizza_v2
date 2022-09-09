@@ -1,11 +1,6 @@
 import React from "react";
-
-type sortType = { name: string; sort: string };
-
-interface SortProps {
-  sortType: sortType;
-  onClickSort: (type: sortType) => void;
-}
+import { useDispatch, useSelector } from "react-redux";
+import { allControls, setSort } from "./controlsSlice";
 
 const popupArr = [
   { name: "популярности (DESC)", sort: "rating" },
@@ -16,7 +11,10 @@ const popupArr = [
   { name: "алфавиту (ASC)", sort: "-title" },
 ];
 
-const Sort: React.FC<SortProps> = ({ sortType, onClickSort }) => {
+const Sort: React.FC = () => {
+  const dispatch = useDispatch();
+  const { sortType } = useSelector(allControls);
+
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
   const popupRef = React.useRef<HTMLDivElement | null>(null);
 
@@ -44,7 +42,9 @@ const Sort: React.FC<SortProps> = ({ sortType, onClickSort }) => {
   ) => {
     if (!e.target) return;
     const target = e.target as HTMLElement;
-    popupArr.find((el) => el.name === target.innerText && onClickSort(el));
+    popupArr.find(
+      (el) => el.name === target.innerText && dispatch(setSort(el))
+    );
     setPopupOpen(false);
   };
 

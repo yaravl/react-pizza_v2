@@ -3,15 +3,15 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../../store";
 
 interface controlsState {
-  search: string;
-  category: number;
-  sort: { name: string; sort: string };
+  searchValue: string;
+  categoryId: number;
+  sortType: { name: string; sort: string };
 }
 
 const initialState: controlsState = {
-  search: "",
-  category: 0,
-  sort: { name: "популярности", sort: "rating" },
+  searchValue: "",
+  categoryId: 0,
+  sortType: { name: "популярности", sort: "rating" },
 };
 
 const controlsSlice = createSlice({
@@ -19,13 +19,13 @@ const controlsSlice = createSlice({
   initialState,
   reducers: {
     setSearch: (state, action: PayloadAction<string>) => {
-      state.search = action.payload;
+      state.searchValue = action.payload;
     },
     setCategory: (state, action: PayloadAction<number>) => {
-      state.category = action.payload;
+      state.categoryId = action.payload;
     },
     setSort: (state, action: PayloadAction<{ name: string; sort: string }>) => {
-      state.sort = action.payload;
+      state.sortType = action.payload;
     },
   },
 });
@@ -36,7 +36,7 @@ export const controlsReducer = controlsSlice.reducer;
 // Selectors
 
 export const allControls = (state: RootState) => ({
-  search: state.controls.search,
-  category: state.controls.category,
-  sort: state.controls.sort,
+  searchValue: state.controls.searchValue,
+  categoryId: state.controls.categoryId,
+  sortType: state.controls.sortType,
 });
