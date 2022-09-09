@@ -4,7 +4,6 @@ import Sort from "../../features/controls/Sort";
 import Categories from "../../features/controls/Categories";
 import { PizzaItem } from "../../types/data";
 import axios from "axios";
-import useDebounce from "../../hooks/useDebounce";
 import { useSelector } from "react-redux";
 import { allControls } from "../../features/controls/controlsSlice";
 
@@ -15,13 +14,7 @@ const HomePage: React.FC = () => {
 
   const { categoryId, sortType, searchValue } = useSelector(allControls);
 
-  const debouncedValue = useDebounce(searchValue, 1000);
-
   React.useEffect(() => {
-    fetchPizzas();
-  }, [categoryId, sortType, debouncedValue, currentPage]);
-
-  const fetchPizzas = async (): Promise<void> => {
     try {
       setIsLoading(true);
 
@@ -30,17 +23,20 @@ const HomePage: React.FC = () => {
       const activeCat = categoryId > 0 ? `category=${categoryId}` : "";
       const search = searchValue.length > 0 ? searchValue : "";
 
-      const response = await axios.get<PizzaItem[]>(
-        `https://62d7100851e6e8f06f183cd2.mockapi.io/items?page=${currentPage}&limit=4&${activeCat}&sortBy=${sortBy}&order=${orderBy}&search=${search}`
-      );
-      const data = await response.data;
-      setItems(data);
-      setIsLoading(false);
+      axios
+        .get<PizzaItem[]>(
+          `https://62d7100851e6e8f06f183cd2.mockapi.io/items?page=${currentPage}&limit=4&${activeCat}&sortBy=${sortBy}&order=${orderBy}&search=${search}`
+        )
+        .then((data) => {
+          setItems(data.data);
+          setIsLoading(false);
+        });
+
       window.scroll(0, 0);
     } catch (e) {
       console.log(e, "<-- Пиццы не загрузились");
     }
-  };
+  }, [categoryId, sortType, currentPage, searchValue]);
 
   return (
     <div className="container">

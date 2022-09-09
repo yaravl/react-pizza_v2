@@ -2,10 +2,28 @@ import React from "react";
 import styles from "./Search.module.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearch, allControls } from "./controlsSlice";
+import useDispatchDebounce from "../../hooks/useDispatchDebounce";
 
 const Search: React.FC = () => {
   const dispatch = useDispatch();
   const { searchValue } = useSelector(allControls);
+
+  const [inputValue, setInputValue] = React.useState<string>("");
+
+  const debouncedDispatch = useDispatchDebounce(setSearch, 1000);
+
+  const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
+    setInputValue(e.target.value);
+    debouncedDispatch(e.target.value);
+  };
+
+  const handleInputClear: React.MouseEventHandler<SVGSVGElement> = () => {
+    dispatch(setSearch(""));
+    setInputValue("");
+    searchRef.current && searchRef.current.focus();
+  };
+
+  const searchRef = React.useRef<HTMLInputElement>(null);
 
   return (
     <div className={styles.search_wrap}>
@@ -44,16 +62,15 @@ const Search: React.FC = () => {
         ></line>
       </svg>
       <input
+        ref={searchRef}
         type="text"
         placeholder="Поиск пиццы..."
-        value={searchValue}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          dispatch(setSearch(e.target.value))
-        }
+        value={inputValue}
+        onChange={handleInputChange}
       />
       {searchValue && (
         <svg
-          onClick={() => dispatch(setSearch(""))}
+          onClick={handleInputClear}
           className={styles.search_clear}
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
