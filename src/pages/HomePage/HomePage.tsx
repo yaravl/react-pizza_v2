@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Pagination, PizzaBlock, PizzaBlockSkeleton } from "../../components";
+import React from "react";
+import { PizzaBlock, PizzaBlockSkeleton } from "../../components";
 import Sort from "../../features/controls/Sort";
 import Categories from "../../features/controls/Categories";
+import Pagination from "../../features/controls/Pagination";
 import { PizzaItem } from "../../types/data";
 import axios from "axios";
 import { useSelector } from "react-redux";
@@ -10,9 +11,9 @@ import { allControls } from "../../features/controls/controlsSlice";
 const HomePage: React.FC = () => {
   const [items, setItems] = React.useState<PizzaItem[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
-  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const { categoryId, sortType, searchValue } = useSelector(allControls);
+  const { categoryId, sortType, searchValue, currentPage } =
+    useSelector(allControls);
 
   React.useEffect(() => {
     try {
@@ -50,7 +51,7 @@ const HomePage: React.FC = () => {
           ? [...Array(2)].map((_, i) => <PizzaBlockSkeleton key={i} />)
           : items.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />)}
       </div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination />
     </div>
   );
 };

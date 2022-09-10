@@ -9,6 +9,7 @@ const Search: React.FC = () => {
   const { searchValue } = useSelector(allControls);
 
   const [inputValue, setInputValue] = React.useState<string>("");
+  const searchRef = React.useRef<HTMLInputElement>(null);
 
   const debouncedDispatch = useDispatchDebounce(setSearch, 1000);
 
@@ -22,8 +23,6 @@ const Search: React.FC = () => {
     setInputValue("");
     searchRef.current && searchRef.current.focus();
   };
-
-  const searchRef = React.useRef<HTMLInputElement>(null);
 
   return (
     <div className={styles.search_wrap}>
