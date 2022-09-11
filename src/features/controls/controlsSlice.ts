@@ -26,16 +26,22 @@ const controlsSlice = createSlice({
     setCategory: (state, action: PayloadAction<number>) => {
       state.categoryId = action.payload;
     },
-    setSort: (state, action: PayloadAction<{ name: string; sort: string }>) => {
+    setSort: (state, action: PayloadAction<typeof initialState.sortType>) => {
       state.sortType = action.payload;
     },
     setCurrentPage: (state, action: PayloadAction<number>) => {
       state.currentPage = action.payload;
     },
+    setControls: (state, action) => {
+      state.categoryId = +action.payload.categoryId;
+      state.currentPage = +action.payload.categoryId;
+      state.sortType.sort = action.payload.sortType;
+      state.searchValue = action.payload.searchValue;
+    },
   },
 });
 
-export const { setSearch, setCategory, setSort, setCurrentPage } =
+export const { setSearch, setCategory, setSort, setCurrentPage, setControls } =
   controlsSlice.actions;
 export const controlsReducer = controlsSlice.reducer;
 

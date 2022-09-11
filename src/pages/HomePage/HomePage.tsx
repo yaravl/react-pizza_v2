@@ -1,19 +1,33 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import qs from "qs";
 import { PizzaBlock, PizzaBlockSkeleton } from "../../components";
 import Sort from "../../features/controls/Sort";
 import Categories from "../../features/controls/Categories";
 import Pagination from "../../features/controls/Pagination";
 import { PizzaItem } from "../../types/data";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import { allControls } from "../../features/controls/controlsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  allControls,
+  setControls,
+} from "../../features/controls/controlsSlice";
 
 const HomePage: React.FC = () => {
+  const dispatch = useDispatch();
+
   const [items, setItems] = React.useState<PizzaItem[]>([]);
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const { categoryId, sortType, searchValue, currentPage } =
     useSelector(allControls);
+
+  React.useEffect(() => {
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      dispatch(setControls(params));
+    }
+  }, []);
 
   React.useEffect(() => {
     try {
@@ -37,6 +51,18 @@ const HomePage: React.FC = () => {
     } catch (e) {
       console.log(e, "<-- Пиццы не загрузились");
     }
+  }, [categoryId, sortType, currentPage, searchValue]);
+
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    const queryString = qs.stringify({
+      sortType: sortType.sort,
+      categoryId,
+      currentPage,
+      searchValue,
+    });
+    navigate(`?${queryString}`);
   }, [categoryId, sortType, currentPage, searchValue]);
 
   return (
