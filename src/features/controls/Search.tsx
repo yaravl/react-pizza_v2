@@ -64,7 +64,7 @@ const Search: React.FC = () => {
         ref={searchRef}
         type="text"
         placeholder="Поиск пиццы..."
-        value={inputValue}
+        value={inputValue.length > 0 ? inputValue : searchValue}
         onChange={handleInputChange}
       />
       {searchValue && (

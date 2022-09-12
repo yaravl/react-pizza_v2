@@ -13,7 +13,7 @@ const initialState: controlsState = {
   searchValue: "",
   currentPage: 1,
   categoryId: 0,
-  sortType: { name: "популярности", sort: "rating" },
+  sortType: { name: "популярности (DESC)", sort: "rating" },
 };
 
 const controlsSlice = createSlice({
@@ -34,8 +34,8 @@ const controlsSlice = createSlice({
     },
     setControls: (state, action) => {
       state.categoryId = +action.payload.categoryId;
-      state.currentPage = +action.payload.categoryId;
-      state.sortType.sort = action.payload.sortType;
+      state.currentPage = +action.payload.currentPage;
+      state.sortType = action.payload.sortType;
       state.searchValue = action.payload.searchValue;
     },
   },

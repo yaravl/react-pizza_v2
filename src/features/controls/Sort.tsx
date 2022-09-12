@@ -2,7 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { allControls, setSort } from "./controlsSlice";
 
-const popupArr = [
+export const popupArr = [
   { name: "популярности (DESC)", sort: "rating" },
   { name: "популярности (ASC)", sort: "-rating" },
   { name: "цене (DESC)", sort: "price" },
