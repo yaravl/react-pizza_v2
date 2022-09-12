@@ -7,6 +7,7 @@ import { CartPage, HomePage, Page404 } from "./pages";
 function App() {
   return (
     <div className="wrapper">
+      {/*TODO: добавить лэйаут*/}
       <Header />
       <div className="content">
         <Routes>

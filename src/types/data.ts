@@ -8,3 +8,13 @@ export interface PizzaItem {
   category: number;
   rating: number;
 }
+
+export interface CartPizzaItem {
+  id: number;
+  imageUrl: string;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+}

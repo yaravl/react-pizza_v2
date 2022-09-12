@@ -47,7 +47,7 @@ export const controlsReducer = controlsSlice.reducer;
 
 // Selectors
 
-export const allControls = (state: RootState) => ({
+export const selectAllControls = (state: RootState) => ({
   searchValue: state.controls.searchValue,
   currentPage: state.controls.currentPage,
   categoryId: state.controls.categoryId,

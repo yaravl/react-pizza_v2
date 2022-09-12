@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { allControls, setSort } from "./controlsSlice";
+import { selectAllControls, setSort } from "./controlsSlice";
 
 export const popupArr = [
   { name: "популярности (DESC)", sort: "rating" },
@@ -13,7 +13,7 @@ export const popupArr = [
 
 const Sort: React.FC = () => {
   const dispatch = useDispatch();
-  const { sortType } = useSelector(allControls);
+  const { sortType } = useSelector(selectAllControls);
 
   const [popupOpen, setPopupOpen] = React.useState<boolean>(false);
   const popupRef = React.useRef<HTMLDivElement | null>(null);

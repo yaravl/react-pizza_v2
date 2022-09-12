@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React, { MouseEventHandler, useState } from "react";
 import { PizzaItem } from "../../types/data";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../features/cart/cartSlice";
+
+const pizzaTypes = ["тонкое", "традиционное"];
 
 export const PizzaBlock: React.FC<PizzaItem> = ({
   id,
@@ -11,10 +15,24 @@ export const PizzaBlock: React.FC<PizzaItem> = ({
   types,
   category,
 }) => {
-  const pizzaTypes = ["тонкое", "традиционное"];
+  const dispatch = useDispatch();
 
   const [type, setType] = useState<number>(0);
   const [size, setSize] = useState<number>(0);
+
+  const handleAddPizza: MouseEventHandler<HTMLButtonElement> = () => {
+    dispatch(
+      addProduct({
+        id,
+        price,
+        size: sizes[size],
+        title,
+        type: pizzaTypes[type],
+        imageUrl,
+        count: 1,
+      })
+    );
+  };
 
   return (
     <div className="pizza-block">
@@ -46,7 +64,10 @@ export const PizzaBlock: React.FC<PizzaItem> = ({
       </div>
       <div className="pizza-block__bottom">
         <div className="pizza-block__price">от {price} ₽</div>
-        <button className="button button--outline button--add">
+        <button
+          onClick={handleAddPizza}
+          className="button button--outline button--add"
+        >
           <svg
             width="12"
             height="12"

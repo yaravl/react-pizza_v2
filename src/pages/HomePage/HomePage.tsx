@@ -9,7 +9,7 @@ import { PizzaItem } from "../../types/data";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  allControls,
+  selectAllControls,
   setControls,
 } from "../../features/controls/controlsSlice";
 
@@ -23,7 +23,7 @@ const HomePage: React.FC = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(true);
 
   const { categoryId, sortType, searchValue, currentPage } =
-    useSelector(allControls);
+    useSelector(selectAllControls);
 
   const fetchPizzas = React.useCallback(() => {
     try {
