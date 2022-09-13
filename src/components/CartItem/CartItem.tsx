@@ -77,7 +77,10 @@ const CartItem: React.FC<CartPizzaItem> = ({
         <b>{price} ₽</b>
       </div>
       <div className="cart__item-remove">
-        <div className="button button--outline button--circle">
+        <button
+          onClick={() => dispatch(removeProduct({ id, type, size }))}
+          className="button button--outline button--circle"
+        >
           <svg
             width="10"
             height="10"
@@ -94,7 +97,7 @@ const CartItem: React.FC<CartPizzaItem> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
     </div>
   );

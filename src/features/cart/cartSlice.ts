@@ -43,22 +43,26 @@ const cartSlice = createSlice({
         }
         return item;
       });
-      state.items.filter((item) => item.count > 0);
     },
     minusProduct: (state, action) => {
-      state.items.filter((item, index) => {
-        //Добавить логику удаления когда элементов 0
+      state.items = state.items.filter((item) => {
         if (condition(item, action)) {
           item.count--;
           state.totalCount--;
           state.totalPrice -= item.price;
-          return;
+          if (item.count === 0) return false;
         }
         return item;
       });
-      state.items.filter((item) => item.count > 0);
     },
-    removeProduct: (state, action) => {},
+    removeProduct: (state, action) => {
+      // Доделать
+      state.items = state.items.filter(
+        (item) =>
+          `${item.id}_${item.type}_${item.size}` !==
+          `${action.payload.id}_${action.payload.type}_${action.payload.size}`
+      );
+    },
     clearCart: () => initialState,
   },
 });
