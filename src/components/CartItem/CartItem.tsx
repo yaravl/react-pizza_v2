@@ -1,5 +1,11 @@
 import React from "react";
 import { CartPizzaItem } from "../../types/data";
+import { useDispatch } from "react-redux";
+import {
+  plusProduct,
+  minusProduct,
+  removeProduct,
+} from "../../features/cart/cartSlice";
 
 const CartItem: React.FC<CartPizzaItem> = ({
   id,
@@ -10,6 +16,7 @@ const CartItem: React.FC<CartPizzaItem> = ({
   type,
   count,
 }) => {
+  const dispatch = useDispatch();
   return (
     <div className="cart__item">
       <div className="cart__item-img">
@@ -22,7 +29,10 @@ const CartItem: React.FC<CartPizzaItem> = ({
         </p>
       </div>
       <div className="cart__item-count">
-        <div className="button button--outline button--circle cart__item-count-minus">
+        <button
+          onClick={() => dispatch(minusProduct({ id, type, size }))}
+          className="button button--outline button--circle cart__item-count-minus"
+        >
           <svg
             width="10"
             height="10"
@@ -39,9 +49,12 @@ const CartItem: React.FC<CartPizzaItem> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
         <b>{count}</b>
-        <div className="button button--outline button--circle cart__item-count-plus">
+        <button
+          onClick={() => dispatch(plusProduct({ id, type, size }))}
+          className="button button--outline button--circle cart__item-count-plus"
+        >
           <svg
             width="10"
             height="10"
@@ -58,7 +71,7 @@ const CartItem: React.FC<CartPizzaItem> = ({
               fill="#EB5A1E"
             />
           </svg>
-        </div>
+        </button>
       </div>
       <div className="cart__item-price">
         <b>{price} ₽</b>
