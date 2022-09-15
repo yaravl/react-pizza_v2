@@ -56,12 +56,14 @@ const cartSlice = createSlice({
       });
     },
     removeProduct: (state, action) => {
-      // Доделать
-      state.items = state.items.filter(
-        (item) =>
-          `${item.id}_${item.type}_${item.size}` !==
-          `${action.payload.id}_${action.payload.type}_${action.payload.size}`
-      );
+      state.items = state.items.filter((item) => {
+        if (condition(item, action)) {
+          state.totalPrice -= item.count * item.price;
+          state.totalCount -= item.count;
+          return false;
+        }
+        return true;
+      });
     },
     clearCart: () => initialState,
   },
@@ -92,3 +94,5 @@ const condition = (
     item.size === action.payload.size
   );
 };
+
+//TODO: объеденить два метода plusproduct и addItem
