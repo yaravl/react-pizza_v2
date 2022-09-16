@@ -67,7 +67,7 @@ export const cartReducer = cartSlice.reducer;
 
 export const selectCartInfo = (state: RootState) => state.cart;
 
-// Any functions
+// Sub functions
 
 const condition = (
   item: CartPizzaItem,

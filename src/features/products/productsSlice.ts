@@ -1,12 +1,21 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import type { PizzaItem } from "../../types/data";
+import { productsApi } from "../../api";
 
-export const getProducts = createAsyncThunk(
-  "@@products/getProducts",
-  async (_, { extra: { client, api } }) => {
-    console.log(api, client);
-  }
-);
+export const getProducts = createAsyncThunk<
+  PizzaItem,
+  string,
+  { extra: { api: typeof productsApi } }
+>("@@products/getProducts", async (params, { extra: { api } }) => {
+  const resp = await api.getProduct();
+  const data = await resp.data;
+
+  await console.log(data);
+
+  return data;
+});
+
+//TODO: разобраться с типизацией асинкСанка
 
 interface InitialState {
   products: PizzaItem[];
