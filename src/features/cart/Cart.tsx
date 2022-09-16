@@ -81,7 +81,15 @@ const Cart = () => {
             />
           </svg>
 
-          <span onClick={() => dispatch(clearCart())}>Очистить корзину</span>
+          <span
+            onClick={() => {
+              if (window.confirm("Вы хотите очистить корзину?")) {
+                dispatch(clearCart());
+              }
+            }}
+          >
+            Очистить корзину
+          </span>
         </div>
       </div>
       <div className="content__items">

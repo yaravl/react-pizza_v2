@@ -2,7 +2,7 @@ import React from "react";
 import { CartPizzaItem } from "../../types/data";
 import { useDispatch } from "react-redux";
 import {
-  plusProduct,
+  addProduct,
   minusProduct,
   removeProduct,
 } from "../../features/cart/cartSlice";
@@ -52,7 +52,7 @@ const CartItem: React.FC<CartPizzaItem> = ({
         </button>
         <b>{count}</b>
         <button
-          onClick={() => dispatch(plusProduct({ id, type, size }))}
+          onClick={() => dispatch(addProduct({ id, type, size }))}
           className="button button--outline button--circle cart__item-count-plus"
         >
           <svg
@@ -78,7 +78,11 @@ const CartItem: React.FC<CartPizzaItem> = ({
       </div>
       <div className="cart__item-remove">
         <button
-          onClick={() => dispatch(removeProduct({ id, type, size }))}
+          onClick={() => {
+            if (window.confirm("Вы хотите удалить пиццу из корзины?")) {
+              dispatch(removeProduct({ id, type, size }));
+            }
+          }}
           className="button button--outline button--circle"
         >
           <svg

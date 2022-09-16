@@ -18,7 +18,7 @@ const cartSlice = createSlice({
   name: "@@cart",
   initialState,
   reducers: {
-    addProduct: (state, action: PayloadAction<CartPizzaItem>) => {
+    addProduct: (state, action) => {
       const newItem = state.items.some((item) => condition(item, action));
 
       if (state.items.length !== 0 && newItem) {
@@ -33,16 +33,6 @@ const cartSlice = createSlice({
       state.totalPrice = state.items.reduce((acc, el) => {
         return acc + el.price * el.count;
       }, 0);
-    },
-    plusProduct: (state, action) => {
-      state.items.filter((item) => {
-        if (condition(item, action)) {
-          item.count++;
-          state.totalCount++;
-          state.totalPrice += item.price;
-        }
-        return item;
-      });
     },
     minusProduct: (state, action) => {
       state.items = state.items.filter((item) => {
@@ -69,13 +59,8 @@ const cartSlice = createSlice({
   },
 });
 
-export const {
-  addProduct,
-  plusProduct,
-  minusProduct,
-  removeProduct,
-  clearCart,
-} = cartSlice.actions;
+export const { addProduct, minusProduct, removeProduct, clearCart } =
+  cartSlice.actions;
 export const cartReducer = cartSlice.reducer;
 
 // Selectors
@@ -94,5 +79,3 @@ const condition = (
     item.size === action.payload.size
   );
 };
-
-//TODO: объеденить два метода plusproduct и addItem

@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useState } from "react";
 import { PizzaItem } from "../../types/data";
-import { useDispatch } from "react-redux";
-import { addProduct } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct, selectCartInfo } from "../../features/cart/cartSlice";
 
 const pizzaTypes = ["тонкое", "традиционное"];
 
@@ -16,6 +16,7 @@ export const PizzaBlock: React.FC<PizzaItem> = ({
   category,
 }) => {
   const dispatch = useDispatch();
+  const { items } = useSelector(selectCartInfo);
 
   const [type, setType] = useState<number>(0);
   const [size, setSize] = useState<number>(0);
@@ -81,7 +82,11 @@ export const PizzaBlock: React.FC<PizzaItem> = ({
             />
           </svg>
           <span>Добавить</span>
-          <i>0</i>
+          <i>
+            {items
+              .filter((item) => item.id === id)
+              .reduce((acc, el) => acc + el.count, 0)}
+          </i>
         </button>
       </div>
     </div>
