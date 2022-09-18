@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./Pagination.module.scss";
 import ReactPaginate from "react-paginate";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentPage, selectAllControls } from "./controlsSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setCurrentPage } from "./controlsSlice";
 
 const Pagination: React.FC = () => {
-  const dispatch = useDispatch();
-  const { currentPage } = useSelector(selectAllControls);
+  const dispatch = useAppDispatch();
+  const { currentPage } = useAppSelector((state) => state.controls);
 
   return (
     <div>

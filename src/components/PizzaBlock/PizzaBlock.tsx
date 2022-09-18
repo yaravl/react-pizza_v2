@@ -1,7 +1,7 @@
 import React, { MouseEventHandler, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { PizzaItem } from "../../types/data";
-import { useDispatch, useSelector } from "react-redux";
-import { addProduct, selectCartInfo } from "../../features/cart/cartSlice";
+import { addProduct } from "../../features/cart/cartSlice";
 
 const pizzaTypes = ["тонкое", "традиционное"];
 
@@ -15,8 +15,8 @@ export const PizzaBlock: React.FC<PizzaItem> = ({
   types,
   category,
 }) => {
-  const dispatch = useDispatch();
-  const { items } = useSelector(selectCartInfo);
+  const dispatch = useAppDispatch();
+  const { items } = useAppSelector((state) => state.cart);
 
   const [type, setType] = useState<number>(0);
   const [size, setSize] = useState<number>(0);

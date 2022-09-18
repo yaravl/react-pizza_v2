@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "../../store";
 
 interface controlsState {
   searchValue: string;
@@ -44,12 +43,3 @@ const controlsSlice = createSlice({
 export const { setSearch, setCategory, setSort, setCurrentPage, setControls } =
   controlsSlice.actions;
 export const controlsReducer = controlsSlice.reducer;
-
-// Selectors
-
-export const selectAllControls = (state: RootState) => ({
-  searchValue: state.controls.searchValue,
-  currentPage: state.controls.currentPage,
-  categoryId: state.controls.categoryId,
-  sortType: state.controls.sortType,
-});

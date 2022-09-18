@@ -5,49 +5,40 @@ import { PizzaBlock, PizzaBlockSkeleton } from "../../components";
 import Sort, { popupArr } from "../../features/controls/Sort";
 import Categories from "../../features/controls/Categories";
 import Pagination from "../../features/controls/Pagination";
-import { PizzaItem } from "../../types/data";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  selectAllControls,
-  setControls,
-} from "../../features/controls/controlsSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setControls } from "../../features/controls/controlsSlice";
+import { getProducts } from "../../features/products/productsSlice";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isLocSearch = React.useRef<boolean>(false);
   const isMounted = React.useRef<boolean>(false);
 
-  const [items, setItems] = React.useState<PizzaItem[]>([]);
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
+  const { categoryId, sortType, searchValue, currentPage } = useAppSelector(
+    (state) => state.controls
+  );
 
-  const { categoryId, sortType, searchValue, currentPage } =
-    useSelector(selectAllControls);
+  const { items } = useAppSelector((state) => state.products);
 
   const fetchPizzas = React.useCallback(() => {
-    try {
-      setIsLoading(true);
+    const sortBy = sortType.sort.replace("-", "");
+    const orderBy = sortType.sort.includes("-") ? "asc" : "desc";
+    const activeCat = categoryId > 0 ? `category=${categoryId}` : "";
+    const search = searchValue.length > 0 ? searchValue : "";
 
-      const sortBy = sortType.sort.replace("-", "");
-      const orderBy = sortType.sort.includes("-") ? "asc" : "desc";
-      const activeCat = categoryId > 0 ? `category=${categoryId}` : "";
-      const search = searchValue.length > 0 ? searchValue : "";
+    dispatch(
+      getProducts(
+        `?page=${currentPage}&limit=4&${activeCat}&sortBy=${sortBy}&order=${orderBy}&search=${search}`
+      )
+    )
+      .unwrap()
+      .then((data) => console.log(data, "data"))
+      .catch((e) => console.log(e, "eeeeee"));
+    //TODO: добавить уведомления
 
-      axios
-        .get<PizzaItem[]>(
-          `https://62d7100851e6e8f06f183cd2.mockapi.io/items?page=${currentPage}&limit=4&${activeCat}&sortBy=${sortBy}&order=${orderBy}&search=${search}`
-        )
-        .then((data) => {
-          setItems(data.data);
-          setIsLoading(false);
-        });
-
-      window.scroll(0, 0);
-    } catch (e) {
-      console.log(e, "<-- Пиццы не загрузились");
-    }
-  }, [categoryId, sortType, currentPage, searchValue]);
+    window.scroll(0, 0);
+  }, [categoryId, sortType, currentPage, searchValue, dispatch]);
 
   // При первом рендере: если есть запрос в строке поиска(window.location.search)
   // Собираю объект для редакса и передаю его, ставлю флажок isLocSearch в положение true
@@ -97,7 +88,7 @@ const HomePage: React.FC = () => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">
-        {isLoading
+        {false
           ? [...Array(2)].map((_, i) => <PizzaBlockSkeleton key={i} />)
           : items.map((pizza) => <PizzaBlock {...pizza} key={pizza.id} />)}
       </div>

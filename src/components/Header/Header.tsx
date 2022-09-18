@@ -1,12 +1,11 @@
 import React from "react";
+import { useAppSelector } from "../../app/hooks";
 import headerSvg from "../../assets/img/pizza-logo.svg";
 import { Link } from "react-router-dom";
 import Search from "../../features/controls/Search";
-import { useSelector } from "react-redux";
-import { selectCartInfo } from "../../features/cart/cartSlice";
 
 const Header: React.FC = () => {
-  const { totalCount, totalPrice } = useSelector(selectCartInfo);
+  const { totalCount, totalPrice } = useAppSelector((state) => state.cart);
   return (
     <div className="header">
       <div className="container">

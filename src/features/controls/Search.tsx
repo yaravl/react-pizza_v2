@@ -1,12 +1,12 @@
 import React from "react";
 import styles from "./Search.module.scss";
-import { useDispatch, useSelector } from "react-redux";
-import { setSearch, selectAllControls } from "./controlsSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setSearch } from "./controlsSlice";
 import useDispatchDebounce from "../../hooks/useDispatchDebounce";
 
 const Search: React.FC = () => {
-  const dispatch = useDispatch();
-  const { searchValue } = useSelector(selectAllControls);
+  const dispatch = useAppDispatch();
+  const { searchValue } = useAppSelector((state) => state.controls);
 
   const [inputValue, setInputValue] = React.useState<string>("");
   const searchRef = React.useRef<HTMLInputElement>(null);

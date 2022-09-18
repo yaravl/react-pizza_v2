@@ -1,30 +1,27 @@
-import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { PizzaItem } from "../../types/data";
 import { productsApi } from "../../api";
 
 export const getProducts = createAsyncThunk<
-  PizzaItem,
+  PizzaItem[],
   string,
-  { extra: { api: typeof productsApi } }
->("@@products/getProducts", async (params, { extra: { api } }) => {
-  const resp = await api.getProduct();
-  const data = await resp.data;
-
-  await console.log(data);
-
-  return data;
+  { rejectValue: string }
+>("@@products/getProducts", async (params, { rejectWithValue }) => {
+  const response = await productsApi.getProduct(params);
+  if (response.status === 400) {
+    return rejectWithValue("Products fetch error!");
+  }
+  return response.data;
 });
 
-//TODO: разобраться с типизацией асинкСанка
-
 interface InitialState {
-  products: PizzaItem[];
+  items: PizzaItem[];
   status: string;
   error: null | string;
 }
 
 const initialState: InitialState = {
-  products: [],
+  items: [],
   status: "idle",
   error: null,
 };
@@ -33,7 +30,21 @@ const productsSlice = createSlice({
   name: "@@products",
   initialState,
   reducers: {},
-  extraReducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getProducts.pending, (state) => {
+      state.status = "loading";
+      state.error = null;
+    });
+    builder.addCase(getProducts.fulfilled, (state, action) => {
+      state.items = action.payload;
+    });
+    builder.addCase(getProducts.rejected, (state, action) => {
+      if (action.payload) {
+        state.status = "rejected";
+        state.error = action.payload;
+      }
+    });
+  },
 });
 
 export const productsReducer = productsSlice.reducer;

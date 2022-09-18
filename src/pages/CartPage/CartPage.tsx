@@ -1,11 +1,10 @@
 import React from "react";
 import Cart from "../../features/cart/Cart";
 import CartEmpty from "../../features/cart/CartEmpty";
-import { useSelector } from "react-redux";
-import { selectCartInfo } from "../../features/cart/cartSlice";
+import { useAppSelector } from "../../app/hooks";
 
 const CartPage = () => {
-  const { items } = useSelector(selectCartInfo);
+  const { items } = useAppSelector((state) => state.cart);
   return (
     <div className="container container--cart">
       {Boolean(items.length) ? <Cart /> : <CartEmpty />}

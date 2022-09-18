@@ -1,6 +1,6 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { setCategory, selectAllControls } from "./controlsSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { setCategory } from "./controlsSlice";
 
 const categories: string[] = [
   "Все",
@@ -12,8 +12,8 @@ const categories: string[] = [
 ];
 
 const Categories: React.FC = () => {
-  const dispatch = useDispatch();
-  const { categoryId } = useSelector(selectAllControls);
+  const dispatch = useAppDispatch();
+  const { categoryId } = useAppSelector((state) => state.controls);
 
   return (
     <div className="categories">

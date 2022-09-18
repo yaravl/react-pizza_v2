@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { PizzaItem } from "./types/data";
 
 const api = axios.create({
@@ -6,7 +6,7 @@ const api = axios.create({
 });
 
 export const productsApi = {
-  getProduct() {
-    return api.get<PizzaItem>("?page=1&limit=4");
+  async getProduct(URL_PARAMS: string) {
+    return await api.get<PizzaItem[]>(URL_PARAMS);
   },
 };

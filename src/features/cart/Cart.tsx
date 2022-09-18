@@ -1,12 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { Link } from "react-router-dom";
 import { CartItem } from "../../components";
-import { selectCartInfo, clearCart } from "./cartSlice";
+import { clearCart } from "./cartSlice";
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const { items, totalPrice, totalCount } = useSelector(selectCartInfo);
+  const dispatch = useAppDispatch();
+  const { items, totalPrice, totalCount } = useAppSelector(
+    (state) => state.cart
+  );
 
   return (
     <div className="cart">
