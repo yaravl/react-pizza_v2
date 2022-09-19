@@ -1,8 +1,9 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../app/hooks";
 import { addProduct, minusProduct, removeProduct } from "./cartSlice";
 
 export interface ICartItem {
+  _id?: number;
   id: number;
   imageUrl: string;
   title: string;
@@ -21,7 +22,7 @@ const CartItem: React.FC<ICartItem> = ({
   type,
   count,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <div className="cart__item">
       <div className="cart__item-img">
@@ -57,7 +58,19 @@ const CartItem: React.FC<ICartItem> = ({
         </button>
         <b>{count}</b>
         <button
-          onClick={() => dispatch(addProduct({ id, type, size }))}
+          onClick={() =>
+            dispatch(
+              addProduct({
+                id,
+                type,
+                size,
+                count,
+                price,
+                title,
+                imageUrl,
+              })
+            )
+          }
           className="button button--outline button--circle cart__item-count-plus"
         >
           <svg

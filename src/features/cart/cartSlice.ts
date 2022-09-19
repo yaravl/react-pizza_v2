@@ -1,27 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ICartItem } from "./CartItem";
+import { localStorageApi } from "../../api";
 
-interface cartState {
+export interface ICartState {
   items: ICartItem[];
   totalCount: number;
   totalPrice: number;
 }
 
-const initialState: cartState = {
-  items: [],
-  totalCount: 0,
-  totalPrice: 0,
-};
+const initialState: ICartState = localStorageApi.getFromLS("cart");
 
 const cartSlice = createSlice({
   name: "@@cart",
   initialState,
   reducers: {
-    addProduct: (state, action) => {
+    addProduct: (state, action: PayloadAction<ICartItem>) => {
       const newItem = state.items.some((item) => condition(item, action));
 
       if (state.items.length !== 0 && newItem) {
-        state.items.filter((item) =>
+        state.items = state.items.filter((item) =>
           condition(item, action) ? item.count++ : item
         );
       } else {
@@ -32,6 +29,8 @@ const cartSlice = createSlice({
       state.totalPrice = state.items.reduce((acc, el) => {
         return acc + el.price * el.count;
       }, 0);
+
+      localStorageApi.setToLS("cart", state);
     },
     minusProduct: (state, action) => {
       state.items = state.items.filter((item) => {
@@ -39,22 +38,30 @@ const cartSlice = createSlice({
           item.count--;
           state.totalCount--;
           state.totalPrice -= item.price;
-          if (item.count === 0) return false;
+          if (item.count === 0) {
+            return false;
+          }
         }
         return item;
       });
+      localStorageApi.setToLS("cart", state);
     },
     removeProduct: (state, action) => {
       state.items = state.items.filter((item) => {
         if (condition(item, action)) {
           state.totalPrice -= item.count * item.price;
           state.totalCount -= item.count;
+
           return false;
         }
         return true;
       });
+      localStorageApi.setToLS("cart", state);
     },
-    clearCart: () => initialState,
+    clearCart: () => {
+      localStorageApi.clearLS("cart");
+      return initialState;
+    },
   },
 });
 
