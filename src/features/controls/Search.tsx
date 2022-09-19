@@ -1,12 +1,11 @@
 import React from "react";
 import styles from "./Search.module.scss";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { setSearch } from "./controlsSlice";
 import useDispatchDebounce from "../../hooks/useDispatchDebounce";
 
 const Search: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { searchValue } = useAppSelector((state) => state.controls);
 
   const [inputValue, setInputValue] = React.useState<string>("");
   const searchRef = React.useRef<HTMLInputElement>(null);
@@ -64,10 +63,10 @@ const Search: React.FC = () => {
         ref={searchRef}
         type="text"
         placeholder="Поиск пиццы..."
-        value={inputValue.length > 0 ? inputValue : searchValue}
+        value={inputValue}
         onChange={handleInputChange}
       />
-      {searchValue && (
+      {inputValue && (
         <svg
           onClick={handleInputClear}
           className={styles.search_clear}

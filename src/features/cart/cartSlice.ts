@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CartPizzaItem } from "../../types/data";
+import { ICartItem } from "./CartItem";
 
 interface cartState {
-  items: CartPizzaItem[];
+  items: ICartItem[];
   totalCount: number;
   totalPrice: number;
 }
@@ -64,10 +64,7 @@ export const cartReducer = cartSlice.reducer;
 
 // Sub functions
 
-const condition = (
-  item: CartPizzaItem,
-  action: PayloadAction<CartPizzaItem>
-) => {
+const condition = (item: ICartItem, action: PayloadAction<ICartItem>) => {
   return (
     item.id === action.payload.id &&
     item.type === action.payload.type &&

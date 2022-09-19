@@ -1,13 +1,18 @@
 import React from "react";
-import { CartPizzaItem } from "../../types/data";
 import { useDispatch } from "react-redux";
-import {
-  addProduct,
-  minusProduct,
-  removeProduct,
-} from "../../features/cart/cartSlice";
+import { addProduct, minusProduct, removeProduct } from "./cartSlice";
 
-const CartItem: React.FC<CartPizzaItem> = ({
+export interface ICartItem {
+  id: number;
+  imageUrl: string;
+  title: string;
+  type: string;
+  size: number;
+  price: number;
+  count: number;
+}
+
+const CartItem: React.FC<ICartItem> = ({
   id,
   imageUrl,
   price,

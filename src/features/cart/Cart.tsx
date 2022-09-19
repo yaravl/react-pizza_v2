@@ -1,8 +1,8 @@
 import React from "react";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { Link } from "react-router-dom";
-import { CartItem } from "../../components";
 import { clearCart } from "./cartSlice";
+import CartItem from "./CartItem";
 
 const Cart = () => {
   const dispatch = useAppDispatch();

@@ -1,19 +1,27 @@
 import React, { MouseEventHandler, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { PizzaItem } from "../../types/data";
-import { addProduct } from "../../features/cart/cartSlice";
+import { addProduct } from "../cart/cartSlice";
 
 const pizzaTypes = ["тонкое", "традиционное"];
 
-export const PizzaBlock: React.FC<PizzaItem> = ({
+export interface IProductItem {
+  id: number;
+  imageUrl: string;
+  title: string;
+  types: number[];
+  sizes: number[];
+  price: number;
+  category: number;
+  rating: number;
+}
+
+export const ProductItem: React.FC<IProductItem> = ({
   id,
   sizes,
   imageUrl,
   price,
-  rating,
   title,
   types,
-  category,
 }) => {
   const dispatch = useAppDispatch();
   const { items } = useAppSelector((state) => state.cart);

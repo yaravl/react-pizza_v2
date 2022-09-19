@@ -1,29 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import type { PizzaItem } from "../../types/data";
 import { productsApi } from "../../api";
+import type { IProductItem } from "./ProductItem";
 
 export const getProducts = createAsyncThunk<
-  PizzaItem[],
+  IProductItem[],
   string,
   { rejectValue: string }
 >("@@products/getProducts", async (params, { rejectWithValue }) => {
-  const response = await productsApi.getProduct(params);
-  if (response.status === 400) {
+  try {
+    const response = await productsApi.getProduct(params);
+    return response.data;
+  } catch {
     return rejectWithValue("Products fetch error!");
   }
-  return response.data;
 });
 
 interface InitialState {
-  items: PizzaItem[];
+  items: IProductItem[];
   status: string;
-  error: null | string;
+  error: undefined | string;
 }
 
 const initialState: InitialState = {
   items: [],
   status: "idle",
-  error: null,
+  error: undefined,
 };
 
 const productsSlice = createSlice({
@@ -33,13 +34,14 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(getProducts.pending, (state) => {
       state.status = "loading";
-      state.error = null;
+      state.error = undefined;
     });
     builder.addCase(getProducts.fulfilled, (state, action) => {
+      state.status = "fulfilled";
       state.items = action.payload;
     });
     builder.addCase(getProducts.rejected, (state, action) => {
-      if (action.payload) {
+      if (action) {
         state.status = "rejected";
         state.error = action.payload;
       }

@@ -1,7 +1,7 @@
 import React from "react";
 import ContentLoader from "react-content-loader";
 
-export const PizzaBlockSkeleton: React.FC = () => {
+export const ProductItemSkeleton: React.FC = () => {
   return (
     <div className="pizza-block">
       <ContentLoader
