@@ -1,11 +1,15 @@
 import React from "react";
 import styles from "./Search.module.scss";
-import { useAppDispatch } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setSearch } from "./controlsSlice";
 import useDispatchDebounce from "../../hooks/useDispatchDebounce";
+import { useCreateQuery } from "./useCreateQuery";
 
 const Search: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { searchValue } = useAppSelector((state) => state.controls);
+
+  const { isMounted } = useCreateQuery();
 
   const [inputValue, setInputValue] = React.useState<string>("");
   const searchRef = React.useRef<HTMLInputElement>(null);
@@ -63,10 +67,10 @@ const Search: React.FC = () => {
         ref={searchRef}
         type="text"
         placeholder="Поиск пиццы..."
-        value={inputValue}
+        defaultValue={isMounted ? searchValue : inputValue}
         onChange={handleInputChange}
       />
-      {inputValue && (
+      {(inputValue || searchValue) && (
         <svg
           onClick={handleInputClear}
           className={styles.search_clear}
