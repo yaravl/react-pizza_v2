@@ -18,7 +18,6 @@ const HomePage: React.FC = () => {
   React.useEffect(() => {
     if (!isLocationSearch.current || searchValue) {
       dispatch(getProducts(createQueryString()));
-      //TODO: добавить уведомления
     }
     isLocationSearch.current = false;
   }, [createQueryString, isLocationSearch, dispatch, searchValue]);

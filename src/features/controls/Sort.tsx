@@ -11,7 +11,7 @@ export const popupArr = [
   { name: "алфавиту (ASC)", sort: "-title" },
 ];
 
-const Sort: React.FC = () => {
+const Sort: React.FC = React.memo(() => {
   const dispatch = useAppDispatch();
   const { sortType } = useAppSelector((state) => state.controls);
 
@@ -83,6 +83,6 @@ const Sort: React.FC = () => {
       )}
     </div>
   );
-};
+});
 
 export default Sort;

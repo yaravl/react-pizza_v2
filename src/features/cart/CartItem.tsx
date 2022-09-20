@@ -23,6 +23,7 @@ const CartItem: React.FC<ICartItem> = ({
   count,
 }) => {
   const dispatch = useAppDispatch();
+  console.log(112112);
   return (
     <div className="cart__item">
       <div className="cart__item-img">

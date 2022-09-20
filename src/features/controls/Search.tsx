@@ -1,10 +1,10 @@
 import React from "react";
-import styles from "./Search.module.scss";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setSearch } from "./controlsSlice";
 import useDispatchDebounce from "../../hooks/useDispatchDebounce";
 import { useCreateQuery } from "./useCreateQuery";
-import { useLocation, useNavigate } from "react-router-dom";
+import styles from "./Search.module.scss";
 
 const Search: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -18,9 +18,15 @@ const Search: React.FC = () => {
 
   const debouncedDispatch = useDispatchDebounce(setSearch, 1000);
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const handleInputChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
     setInputValue(e.target.value);
     debouncedDispatch(e.target.value);
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
   };
 
   const handleInputClear: React.MouseEventHandler<SVGSVGElement> = () => {
@@ -29,15 +35,8 @@ const Search: React.FC = () => {
     searchRef.current && searchRef.current.focus();
   };
 
-  const location = useLocation();
-  const navigate = useNavigate();
-
   React.useEffect(() => {
     setInputValue(searchValue);
-
-    if (location.pathname !== "/") {
-      navigate("/");
-    }
   }, [searchValue]);
 
   return (
@@ -83,7 +82,7 @@ const Search: React.FC = () => {
         value={isMounted && inputValue}
         onChange={handleInputChange}
       />
-      {(inputValue || searchValue) && (
+      {inputValue && (
         <svg
           onClick={handleInputClear}
           className={styles.search_clear}
