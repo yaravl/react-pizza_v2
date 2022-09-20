@@ -8,7 +8,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="cart" element={<CartPage />} />
         <Route path="pizza-:id" element={<PizzaPage />} />
         <Route path="*" element={<Page404 />} />
