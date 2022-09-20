@@ -5,7 +5,7 @@ import { addProduct } from "../cart/cartSlice";
 const pizzaTypes = ["тонкое", "традиционное"];
 
 export interface IProductItem {
-  id: number;
+  id: string;
   imageUrl: string;
   title: string;
   types: number[];

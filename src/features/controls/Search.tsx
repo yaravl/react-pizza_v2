@@ -4,14 +4,16 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { setSearch } from "./controlsSlice";
 import useDispatchDebounce from "../../hooks/useDispatchDebounce";
 import { useCreateQuery } from "./useCreateQuery";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Search: React.FC = () => {
   const dispatch = useAppDispatch();
+
   const { searchValue } = useAppSelector((state) => state.controls);
 
   const { isMounted } = useCreateQuery();
 
-  const [inputValue, setInputValue] = React.useState<string>("");
+  const [inputValue, setInputValue] = React.useState<string>(searchValue);
   const searchRef = React.useRef<HTMLInputElement>(null);
 
   const debouncedDispatch = useDispatchDebounce(setSearch, 1000);
@@ -26,6 +28,17 @@ const Search: React.FC = () => {
     setInputValue("");
     searchRef.current && searchRef.current.focus();
   };
+
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  React.useEffect(() => {
+    setInputValue(searchValue);
+
+    if (location.pathname !== "/") {
+      navigate("/");
+    }
+  }, [searchValue]);
 
   return (
     <div className={styles.search_wrap}>
@@ -67,7 +80,7 @@ const Search: React.FC = () => {
         ref={searchRef}
         type="text"
         placeholder="Поиск пиццы..."
-        defaultValue={isMounted ? searchValue : inputValue}
+        value={isMounted && inputValue}
         onChange={handleInputChange}
       />
       {(inputValue || searchValue) && (

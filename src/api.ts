@@ -7,8 +7,11 @@ const api = axios.create({
 });
 
 export const productsApi = {
-  getProduct(URL_PARAMS: string) {
+  getProducts(URL_PARAMS: string) {
     return api.get<IProductItem[]>("items" + URL_PARAMS);
+  },
+  getSingleProduct(id: string) {
+    return api.get<IProductItem>("items/" + id);
   },
 };
 
@@ -18,7 +21,7 @@ export const localStorageApi = {
     if (res) {
       return JSON.parse(res);
     }
-    return [];
+    return { items: [], totalCount: 0, totalPrice: 0 } as ICartState;
   },
   setToLS(key: string, state: ICartState) {
     const arrString = JSON.stringify(state);

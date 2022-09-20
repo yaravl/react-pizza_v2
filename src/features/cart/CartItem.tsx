@@ -3,8 +3,8 @@ import { useAppDispatch } from "../../app/hooks";
 import { addProduct, minusProduct, removeProduct } from "./cartSlice";
 
 export interface ICartItem {
-  _id?: number;
-  id: number;
+  _id?: string;
+  id: string;
   imageUrl: string;
   title: string;
   type: string;

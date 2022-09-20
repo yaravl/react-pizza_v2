@@ -8,7 +8,7 @@ export const getProducts = createAsyncThunk<
   { rejectValue: string }
 >("@@products/getProducts", async (params, { rejectWithValue }) => {
   try {
-    const response = await productsApi.getProduct(params);
+    const response = await productsApi.getProducts(params);
     return response.data;
   } catch {
     return rejectWithValue("Products fetch error!");

@@ -1,10 +1,11 @@
 import React from "react";
 import qs from "qs";
 import { useAppSelector } from "../../app/hooks";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export const useCreateQuery = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // isMounted = первый рендер
   const isMounted = React.useRef<boolean>(false);
@@ -26,7 +27,7 @@ export const useCreateQuery = () => {
   // При первом рендере или параметры изменились
   // не создавать url параметры в адресной строке
   React.useEffect(() => {
-    if (isMounted.current) {
+    if (isMounted.current && location.pathname === "/") {
       const queryString = qs.stringify({
         sortType: sortType.sort,
         categoryId,
@@ -36,7 +37,14 @@ export const useCreateQuery = () => {
       navigate(`?${queryString}`);
     }
     isMounted.current = true;
-  }, [categoryId, sortType, currentPage, searchValue, navigate]);
+  }, [
+    categoryId,
+    sortType,
+    currentPage,
+    searchValue,
+    navigate,
+    location.pathname,
+  ]);
 
   return { isMounted, createQueryString };
 };

@@ -1,22 +1,19 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import "../scss/app.scss";
-import { Header } from "../components";
-import { CartPage, HomePage, Page404 } from "../pages";
+import { Layout } from "../components";
+import { CartPage, HomePage, Page404, PizzaPage } from "../pages";
 
 function App() {
   return (
-    <div className="wrapper">
-      {/*TODO: добавить лэйаут*/}
-      <Header />
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="*" element={<Page404 />} />
-        </Routes>
-      </div>
-    </div>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="cart" element={<CartPage />} />
+        <Route path="pizza-:id" element={<PizzaPage />} />
+        <Route path="*" element={<Page404 />} />
+      </Route>
+    </Routes>
   );
 }
 
