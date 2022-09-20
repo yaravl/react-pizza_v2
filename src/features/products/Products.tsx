@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+
 import { useAppSelector } from "../../app/hooks";
 import { ProductItem } from "./ProductItem";
 import { ProductItemSkeleton } from "./ProductItemSkeleton";
@@ -18,9 +18,7 @@ const Products = () => {
             {status === "loading"
               ? [...Array(2)].map((_, i) => <ProductItemSkeleton key={i} />)
               : items.map((product) => (
-                  <Link to={`pizza-${product.id}`} key={product.id}>
-                    <ProductItem {...product} />
-                  </Link>
+                  <ProductItem {...product} key={product.id} />
                 ))}
           </div>
         </>

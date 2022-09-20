@@ -1,4 +1,5 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler } from "react";
+import { Link } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addProduct } from "../cart/cartSlice";
 
@@ -26,8 +27,8 @@ export const ProductItem: React.FC<IProductItem> = ({
   const dispatch = useAppDispatch();
   const { items } = useAppSelector((state) => state.cart);
 
-  const [type, setType] = useState<number>(0);
-  const [size, setSize] = useState<number>(0);
+  const [type, setType] = React.useState<number>(0);
+  const [size, setSize] = React.useState<number>(0);
 
   const handleAddPizza: MouseEventHandler<HTMLButtonElement> = () => {
     dispatch(
@@ -45,8 +46,10 @@ export const ProductItem: React.FC<IProductItem> = ({
 
   return (
     <div className="pizza-block">
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{title}</h4>
+      <Link to={`pizza-${id}`}>
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+        <h4 className="pizza-block__title">{title}</h4>
+      </Link>
       <div className="pizza-block__selector">
         <ul>
           {types.map((el, i) => (

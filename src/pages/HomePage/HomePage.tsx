@@ -16,10 +16,8 @@ const HomePage: React.FC = () => {
   const isLocationSearch = useLocationSearch();
 
   React.useEffect(() => {
-    console.log("woop");
     if (!isLocationSearch.current || searchValue) {
       dispatch(getProducts(createQueryString()));
-      console.log("boop");
       //TODO: добавить уведомления
     }
     isLocationSearch.current = false;

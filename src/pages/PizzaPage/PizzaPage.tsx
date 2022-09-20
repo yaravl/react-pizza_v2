@@ -30,14 +30,7 @@ const PizzaPage = () => {
   return (
     <div className="pizza-single" style={{ textAlign: "center" }}>
       {props && <ProductItem {...props} />}
-      <button
-        style={{
-          padding: "10px 20px",
-          borderRadius: 50,
-          backgroundColor: "white",
-        }}
-        onClick={() => navigate(-1)}
-      >
+      <button className="button" onClick={() => navigate(-1)}>
         назад
       </button>
     </div>
