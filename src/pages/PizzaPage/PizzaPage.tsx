@@ -29,7 +29,15 @@ const PizzaPage = () => {
 
   return (
     <div className="pizza-single" style={{ textAlign: "center" }}>
-      {props && <ProductItem {...props} />}
+      {props && (
+        <>
+          <img style={{ width: 300 }} src={props.imageUrl} alt={props.title} />
+          <h4 style={{ fontSize: 30 }}>{props.title}</h4>
+          <div style={{ marginBottom: 30 }}>
+            {Array(Math.floor(props.rating / 2)).fill("⭐")}
+          </div>
+        </>
+      )}
       <button className="button" onClick={() => navigate(-1)}>
         назад
       </button>
