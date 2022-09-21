@@ -3,9 +3,11 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { Link } from "react-router-dom";
 import { clearCart } from "./cartSlice";
 import CartItem from "./CartItem";
+import CartOrder from "./CartOrder";
 
 const Cart = () => {
   const dispatch = useAppDispatch();
+
   const { items, totalPrice, totalCount } = useAppSelector(
     (state) => state.cart
   );
@@ -136,9 +138,7 @@ const Cart = () => {
 
             <span>Вернуться назад</span>
           </Link>
-          <div className="button pay-btn">
-            <span>Оплатить сейчас</span>
-          </div>
+          <CartOrder />
         </div>
       </div>
     </div>
