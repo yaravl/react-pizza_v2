@@ -2,28 +2,12 @@ import React from "react";
 import { clearCart } from "./cartSlice";
 import { useAppDispatch } from "../../app/hooks";
 import styles from "./CartOrder.module.scss";
+import { Modal, Portal } from "../../components";
 
 const CartOrder: React.FC = () => {
   const dispatch = useAppDispatch();
 
-  const [visible, setVisible] = React.useState<boolean>();
-  const refOverlay = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    console.log(1);
-    if (refOverlay.current) {
-      document.addEventListener("click", handleClose);
-    }
-    return () => {
-      document.removeEventListener("click", handleClose);
-    };
-  });
-
-  const handleClose = (e: MouseEvent) => {
-    if (e.target === refOverlay.current) {
-      setVisible(false);
-    }
-  };
+  const [visible, setVisible] = React.useState<boolean>(false);
 
   const handleOrderComplete: React.MouseEventHandler = () => {
     dispatch(clearCart());
@@ -35,8 +19,9 @@ const CartOrder: React.FC = () => {
       <button onClick={() => setVisible(true)} className="button pay-btn">
         <span>Подтвердить заказ</span>
       </button>
-      {visible && (
-        <div ref={refOverlay} className={styles.overlay}>
+
+      <Portal>
+        <Modal isOpen={visible} onClose={() => setVisible(false)}>
           <div className={styles.content}>
             <button
               onClick={() => setVisible(false)}
@@ -55,8 +40,8 @@ const CartOrder: React.FC = () => {
               СПАСИБО
             </button>
           </div>
-        </div>
-      )}
+        </Modal>
+      </Portal>
     </>
   );
 };
